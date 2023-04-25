@@ -23,5 +23,7 @@ namespace KinKanMaiUI.Models
 
         public List<CartDetail> CartDetail { get; set; }
 
+        [NotMapped]
+        public string ShopName { get; set; }
     }
 }

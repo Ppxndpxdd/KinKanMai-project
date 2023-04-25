@@ -1,26 +1,57 @@
-﻿using KinKanMaiUI.Models;
+﻿using KinKanMaiUI.Data;
+using KinKanMaiUI.Models;
+using KinKanMaiUI.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+
 
 namespace KinKanMaiUI.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IHomeRepository _homeRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _db;
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db, IHomeRepository homeRepository)
         {
             _logger = logger;
+            _db = db;
+            _homeRepository = homeRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string sterm="",int shopId=0)
+        {
+            IEnumerable<Menu> menus = await _homeRepository.GetMenus(sterm,shopId);
+            IEnumerable<Shop> shops = await _homeRepository.Shops();
+            MenuDisplayModel menuModel = new MenuDisplayModel
+            {
+                Menus = menus,
+                Shops = shops,
+                Sterm = sterm,
+                ShopId = shopId
+            };
+            return View(menuModel);
+        }
+
+        public IActionResult Add()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Add(Menu obj)
         {
-            return View();
+
+            if (ModelState.IsValid)
+            {
+                _db.Menus.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
