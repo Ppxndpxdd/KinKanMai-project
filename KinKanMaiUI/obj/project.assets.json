@@ -11055,19 +11055,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\PP's Notebook\\.nuget\\packages\\": {}
+    "C:\\Users\\NGUP\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Visual Studio 2022\\CodeFile\\ASP,Net_MVC\\KinKanMai\\KinKanMaiUI\\KinKanMaiUI.csproj",
+      "projectUniqueName": "C:\\Users\\NGUP\\Source\\Repos\\KinKanMai-project1\\KinKanMaiUI\\KinKanMaiUI.csproj",
       "projectName": "KinKanMaiUI",
-      "projectPath": "D:\\Visual Studio 2022\\CodeFile\\ASP,Net_MVC\\KinKanMai\\KinKanMaiUI\\KinKanMaiUI.csproj",
-      "packagesPath": "C:\\Users\\PP's Notebook\\.nuget\\packages\\",
-      "outputPath": "D:\\Visual Studio 2022\\CodeFile\\ASP,Net_MVC\\KinKanMai\\KinKanMaiUI\\obj\\",
+      "projectPath": "C:\\Users\\NGUP\\Source\\Repos\\KinKanMai-project1\\KinKanMaiUI\\KinKanMaiUI.csproj",
+      "packagesPath": "C:\\Users\\NGUP\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\NGUP\\Source\\Repos\\KinKanMai-project1\\KinKanMaiUI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\PP's Notebook\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\NGUP\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11139,7 +11139,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }
