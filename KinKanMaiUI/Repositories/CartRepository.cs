@@ -76,7 +76,6 @@ namespace KinKanMaiUI.Repositories
                 if (string.IsNullOrEmpty(userId))
                 {
                     throw new Exception("user is not logged-in");
-                }
                 var cart = await GetCart(userId);
                 if (cart == null)
                 {
@@ -94,7 +93,6 @@ namespace KinKanMaiUI.Repositories
                 else
                 {
                     cartItem.Quantity = cartItem.Quantity - 1;
-                }
                 _db.SaveChanges();
             }
             catch (Exception ex)
