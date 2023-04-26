@@ -12,7 +12,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/Home/Index">EBookStore</a>
+            <a class="navbar-brand" href="/Home/Index">KINKANMAI</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -27,6 +27,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/Home/Privacy">Privacy</a>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="/UserOrder/UserOrders">My Orders</a></li>
                 </ul>
                 <partial name="_LoginPartial" />
 
@@ -43,11 +44,12 @@
     async function loadCartCount() {
         try {
             var response = await fetch(`/Cart/GetTotalItemInCart`);
-            console.log(response)
+            
             if (response.status == 200) {
                 var result = await response.json();
                 var cartCountEl = document.getElementById("cartCount");
                 cartCountEl.innerHTML = result;
+                console.log(result)
             }
         }
         catch (err) {

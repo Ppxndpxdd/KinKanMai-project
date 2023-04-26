@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace KinKanMaiUI.Controllers
 {
@@ -21,9 +22,9 @@ namespace KinKanMaiUI.Controllers
             return RedirectToAction("GetUserCart");
         }
 
-        public async Task<IActionResult> RemovedItem(int menuId)
+        public async Task<IActionResult> RemoveItem(int menuId)
         {
-            var cartCount = await _cartRepo.RemovedItem(menuId);
+            var cartCount = await _cartRepo.RemoveItem(menuId);
             return RedirectToAction("GetUserCart");
         }
 
@@ -37,5 +38,28 @@ namespace KinKanMaiUI.Controllers
             int cartItem = await _cartRepo.GetCartItemCount();
             return Ok(cartItem);
         }
+
+        public async Task<IActionResult> Checkout()
+        {
+            try
+            {
+                bool isCheckedOut = await _cartRepo.DoCheckout();
+                if (!isCheckedOut)
+                    throw new Exception("Checkout failed");
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                // log the exception
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+
+                // return an error message to the client
+                return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong on the server side.");
+            }
+        }
+
+
     }
 }

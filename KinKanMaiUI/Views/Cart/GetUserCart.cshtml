@@ -1,0 +1,63 @@
+﻿@model ShoppingCart
+@{
+    ViewData["Title"] = "GetUserCart";
+    Layout = "_Layout";
+}
+
+<div style="width:90%;margin:auto" class="mt-2">
+    @if (Model != null && Model.CartDetails != null && Model.CartDetails.Count > 0)
+    {
+        <h5>My Cart</h5>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Menu</th>
+                <th>Image</th>
+                <th>Shop</th>
+                <th>Unit Price(BAHT)</th>
+                <th>Total Price</th>
+                <th>Action</th>
+            </tr>
+            @foreach (var item in Model.CartDetails.GroupBy(cd => cd.MenuId))
+            {
+                var menu = item.First().Menu;
+                var quantity = item.Sum(cd => cd.Quantity);
+                var totalPrice = menu.Price * quantity;
+                <tr>
+                    <td>@menu.MenuName</td>
+                    <td>
+                        @*@if (string.IsNullOrEmpty(item.Menu.Image))
+                        {
+                            <img src="/images/NoImage.png" style="width:80px;height:100px" />
+                        }
+                        else
+                        {
+                            <img src="/images/@item.Menu.Image" style="width:80px;height:100px" />
+                        }*@
+                    </td>
+                    <td>@menu.Shop.MenuName</td>
+                    <td>@menu.Price X @quantity</td>
+                    <td>@totalPrice</td>
+                    <td>
+                        <a class="btn btn-info" href="/Cart/AddItem?menuId=@menu.Id&&redirect=1">+</a>
+                        <a class="btn btn-info" href="/Cart/RemoveItem?menuid=@menu.Id">-</a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="my-2">
+            <h5>Total(BAHT): </h5>
+            @(Model.CartDetails.Select(item => item.Menu.Price * item.Quantity).Sum())
+        </div>
+
+        <div class="my-2">
+            <a class="btn btn-primary" href="/Cart/Checkout">Checkout</a>
+        </div>
+
+    }
+    else
+    {
+        <h5>Cart is empty</h5>
+    }
+</div>

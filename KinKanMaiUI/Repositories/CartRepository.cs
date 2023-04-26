@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace KinKanMaiUI.Repositories
+namespace BookShoppingCartMvcUI.Repositories
 {
     public class CartRepository : ICartRepository
     {
@@ -10,36 +10,34 @@ namespace KinKanMaiUI.Repositories
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CartRepository(ApplicationDbContext db, IHttpContextAccessor httpContextAccessor, UserManager<IdentityUser> userManager)
+        public CartRepository(ApplicationDbContext db, IHttpContextAccessor httpContextAccessor,
+            UserManager<IdentityUser> userManager)
         {
             _db = db;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
         }
-
         public async Task<int> AddItem(int menuId, int qty)
         {
             string userId = GetUserId();
             using var transaction = _db.Database.BeginTransaction();
-            try {
-                
+            try
+            {
                 if (string.IsNullOrEmpty(userId))
-                {
                     throw new Exception("user is not logged-in");
-                }
                 var cart = await GetCart(userId);
                 if (cart is null)
                 {
                     cart = new ShoppingCart
                     {
-                        UserId = userId,
+                        UserId = userId
                     };
                     _db.ShoppingCarts.Add(cart);
                 }
                 _db.SaveChanges();
                 // cart detail section
                 var cartItem = _db.CartDetails
-                    .FirstOrDefault(a => a.ShoppingCartId == cart.Id && a.MenuId == menuId);
+                                  .FirstOrDefault(a => a.ShoppingCartId == cart.Id && a.MenuId == menuId);
                 if (cartItem is not null)
                 {
                     cartItem.Quantity += qty;
@@ -52,7 +50,7 @@ namespace KinKanMaiUI.Repositories
                         MenuId = menuId,
                         ShoppingCartId = cart.Id,
                         Quantity = qty,
-                        UnitPrice = menu.Price
+                        UnitPrice = menu.Price  // it is a new line after update
                     };
                     _db.CartDetails.Add(cartItem);
                 }
@@ -66,37 +64,31 @@ namespace KinKanMaiUI.Repositories
             return cartItemCount;
         }
 
-        public async Task<int> RemovedItem(int menuId)
+
+        public async Task<int> RemoveItem(int menuId)
         {
-            string userId = GetUserId();
             //using var transaction = _db.Database.BeginTransaction();
+            string userId = GetUserId();
             try
             {
-
                 if (string.IsNullOrEmpty(userId))
-                {
                     throw new Exception("user is not logged-in");
                 var cart = await GetCart(userId);
-                if (cart == null)
-                {
+                if (cart is null)
                     throw new Exception("Invalid cart");
-                }
-                var cartItem = _db.CartDetails.FirstOrDefault(c => c.ShoppingCartId == cart.Id && c.MenuId == menuId);
-                if (cartItem == null)
-                {
+                // cart detail section
+                var cartItem = _db.CartDetails
+                                  .FirstOrDefault(a => a.ShoppingCartId == cart.Id && a.MenuId == menuId);
+                if (cartItem is null)
                     throw new Exception("Not items in cart");
-                }
                 else if (cartItem.Quantity == 1)
-                {
                     _db.CartDetails.Remove(cartItem);
-                }
                 else
-                {
                     cartItem.Quantity = cartItem.Quantity - 1;
                 _db.SaveChanges();
             }
             catch (Exception ex)
-            { 
+            {
 
             }
             var cartItemCount = await GetCartItemCount(userId);
@@ -114,7 +106,6 @@ namespace KinKanMaiUI.Repositories
                                   .ThenInclude(a => a.Shop)
                                   .Where(a => a.UserId == userId).FirstOrDefaultAsync();
             return shoppingCart;
-
         }
 
         public async Task<ShoppingCart> GetCart(string userId)
@@ -123,19 +114,34 @@ namespace KinKanMaiUI.Repositories
             return cart;
         }
 
+        //public async Task<int> GetCartItemCount(string userId = "")
+        //{
+        //    if (string.IsNullOrEmpty(userId))
+        //    {
+        //        userId = GetUserId();
+        //    }
+        //    var data = await (from cart in _db.ShoppingCarts
+        //                      join cartDetail in _db.CartDetails
+        //                      on cart.Id equals cartDetail.ShoppingCartId
+        //                      where cart.UserId == userId
+        //                      select new { cartDetail.Id }
+        //                ).ToListAsync();
+        //    return data.Count;
+        //}
+
         public async Task<int> GetCartItemCount(string userId = "")
         {
-            if (!string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(userId))
             {
                 userId = GetUserId();
             }
-            var data = await (from cart in _db.ShoppingCarts
-                              join cartDetail in _db.CartDetails
-                              on cart.Id equals cartDetail.ShoppingCartId
-                              select new { cartDetail.Id }
-                              ).ToListAsync();
-            return data.Count;
+            var count = await _db.CartDetails
+                .Include(cd => cd.ShoppingCart)
+                .Where(cd => cd.ShoppingCart.UserId == userId)
+                .SumAsync(cd => cd.Quantity);
+            return count;
         }
+
 
         public async Task<bool> DoCheckout()
         {
@@ -158,18 +164,21 @@ namespace KinKanMaiUI.Repositories
                 {
                     UserId = userId,
                     CreateDate = DateTime.UtcNow,
-                    OrderStatusId = 1//pending
+                    OrderStatusId = 1,//pending
+                    IsDeleted = false
                 };
+
                 _db.Orders.Add(order);
                 _db.SaveChanges();
                 foreach (var item in cartDetail)
                 {
                     var orderDetail = new OrderDetail
                     {
-                        BookId = item.MenuId,
                         OrderId = order.Id,
+                        MenuId = item.MenuId,
                         Quantity = item.Quantity,
-                        UnitPrice = item.UnitPrice
+                        UnitPrice = item.UnitPrice,
+                        
                     };
                     _db.OrderDetails.Add(orderDetail);
                 }
@@ -194,5 +203,7 @@ namespace KinKanMaiUI.Repositories
             string userId = _userManager.GetUserId(principal);
             return userId;
         }
+
+
     }
 }

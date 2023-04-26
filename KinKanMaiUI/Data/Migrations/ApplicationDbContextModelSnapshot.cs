@@ -39,9 +39,6 @@ namespace KinKanMaiUI.Data.Migrations
                     b.Property<int>("ShoppingCartId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShoppingCart_Id")
-                        .HasColumnType("int");
-
                     b.Property<double>("UnitPrice")
                         .HasColumnType("float");
 
