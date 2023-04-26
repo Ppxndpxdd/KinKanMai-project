@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\NGUP\\Source\\Repos\\KinKanMai-project1\\KinKanMaiUI\\KinKanMaiUI.csproj": {}
+    "C:\\Users\\NGUP\\source\\repos\\KinKanMai-project1\\KinKanMaiUI\\KinKanMaiUI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\NGUP\\Source\\Repos\\KinKanMai-project1\\KinKanMaiUI\\KinKanMaiUI.csproj": {
+    "C:\\Users\\NGUP\\source\\repos\\KinKanMai-project1\\KinKanMaiUI\\KinKanMaiUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\NGUP\\Source\\Repos\\KinKanMai-project1\\KinKanMaiUI\\KinKanMaiUI.csproj",
+        "projectUniqueName": "C:\\Users\\NGUP\\source\\repos\\KinKanMai-project1\\KinKanMaiUI\\KinKanMaiUI.csproj",
         "projectName": "KinKanMaiUI",
-        "projectPath": "C:\\Users\\NGUP\\Source\\Repos\\KinKanMai-project1\\KinKanMaiUI\\KinKanMaiUI.csproj",
+        "projectPath": "C:\\Users\\NGUP\\source\\repos\\KinKanMai-project1\\KinKanMaiUI\\KinKanMaiUI.csproj",
         "packagesPath": "C:\\Users\\NGUP\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\NGUP\\Source\\Repos\\KinKanMai-project1\\KinKanMaiUI\\obj\\",
+        "outputPath": "C:\\Users\\NGUP\\source\\repos\\KinKanMai-project1\\KinKanMaiUI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\NGUP\\AppData\\Roaming\\NuGet\\NuGet.Config",

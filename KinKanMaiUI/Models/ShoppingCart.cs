@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KinKanMaiUI.Models
@@ -14,5 +13,6 @@ namespace KinKanMaiUI.Models
 
         public bool IsDeleted { get; set; } = false;
         
+        public ICollection<CartDetail> CartDetails { get; set; }
     }
 }
