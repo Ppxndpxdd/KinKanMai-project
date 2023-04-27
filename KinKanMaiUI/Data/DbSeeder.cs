@@ -12,7 +12,10 @@ namespace KinKanMaiUI.Data
             var roleMgr = service.GetService<RoleManager<IdentityRole>>();
             //adding some roles to db
             await roleMgr.CreateAsync(new IdentityRole(Roles.Admin.ToString()));
-            await roleMgr.CreateAsync(new IdentityRole(Roles.User.ToString()));
+            /*            await roleMgr.CreateAsync(new IdentityRole(Roles.User.ToString()));*/
+            await roleMgr.CreateAsync(new IdentityRole(Roles.Customer.ToString()));
+            await roleMgr.CreateAsync(new IdentityRole(Roles.Rider.ToString()));
+
 
             // create admin user
             var admin = new IdentityUser
@@ -25,7 +28,7 @@ namespace KinKanMaiUI.Data
             if (userInDb is null)
             {
                 await userMgr.CreateAsync(admin, "Admin@123");
-                await userMgr.AddToRoleAsync(admin,Roles.Admin.ToString());
+                await userMgr.AddToRoleAsync(admin, Roles.Admin.ToString());
             }
         }
     }

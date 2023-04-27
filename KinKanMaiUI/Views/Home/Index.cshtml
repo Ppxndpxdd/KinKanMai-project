@@ -5,32 +5,6 @@
 }
 
 <div>
-    @*<form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center">
-        <div class="col-12">
-            <label class="visually-hidden" for="shopId">Genres</label>
-            <select class="form-select" id="shopId" name="shopId">
-                <option selected>shop</option>
-                @foreach(var shop in Model.Shops)
-                {
-                    //<button type="button" onclick="add(@menu.Id)" class="btn btn-primary">@shop.MenuName</button>
-                    <option selected="@(shop.Id == Model.ShopId)" value="@shop.Id">@shop.MenuName</option>
-                }
-            </select>
-        </div>
-
-        <div class="col-12">
-            <label class="visually-hidden" for="sterm">Search by title</label>
-            <div class="input-group">
-                <div class="input-group-text"></div>
-                <input type="text" class="form-control" value="@Model.Sterm" id="sterm" name="sterm" placeholder="Search by title">
-            </div>
-        </div>
-
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Search</button>
-            <a href="/Home/Index" class="btn btn-dark">Reset</a>
-        </div>
-    </form>*@
 
     <form method="post" action="/Home/Index">
         <input type="hidden" name="shopId" value="0" />

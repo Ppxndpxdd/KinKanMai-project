@@ -1,6 +1,7 @@
 ﻿using KinKanMaiUI.Data;
 using KinKanMaiUI.Models;
 using KinKanMaiUI.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -20,34 +21,38 @@ namespace KinKanMaiUI.Controllers
             _db = db;
             _homeRepository = homeRepository;
         }
-
+        [Authorize]
         public async Task<IActionResult> Index(string sterm="",int shopId=0)
         {
-            IEnumerable<Menu> menus = await _homeRepository.GetMenus(sterm,shopId);
-            IEnumerable<Shop> shops = await _homeRepository.Shops();
-            MenuDisplayModel menuModel = new MenuDisplayModel
+            if (User.Identity.IsAuthenticated && (User.IsInRole("Customer") || User.IsInRole("Admin")))
             {
-                Menus = menus,
-                Shops = shops,
-                Sterm = sterm,
-                ShopId = shopId
-            };
-            return View(menuModel);
+                IEnumerable<Menu> menus = await _homeRepository.GetMenus(sterm, shopId);
+                IEnumerable<Shop> shops = await _homeRepository.Shops();
+                MenuDisplayModel menuModel = new MenuDisplayModel
+                {
+                    Menus = menus,
+                    Shops = shops,
+                    Sterm = sterm,
+                    ShopId = shopId
+                };
+                return View(menuModel);
+            }
+            else if (User.Identity.IsAuthenticated && User.IsInRole("Rider"))
+            {
+                return RedirectToAction("Receiveds", "Received");
+            }
+            else
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+            
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Add(Menu obj)
-        //{
+        public IActionResult Privacy()
+        {
+            return View();
+        }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        _db.Menus.Add(obj);
-        //        _db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(obj);
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

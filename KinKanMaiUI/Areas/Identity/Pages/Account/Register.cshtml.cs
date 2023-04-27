@@ -17,7 +17,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace KinKanMaiUI.Areas.Identity.Pages.Account
@@ -30,13 +32,15 @@ namespace KinKanMaiUI.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +48,7 @@ namespace KinKanMaiUI.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -98,6 +103,10 @@ namespace KinKanMaiUI.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "Role")]
+            public string Role { get; set; }
         }
 
 
@@ -105,6 +114,7 @@ namespace KinKanMaiUI.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ViewData["Roles"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Customer", "Rider");
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -122,7 +132,7 @@ namespace KinKanMaiUI.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     //assing role to user
-                    await _userManager.AddToRoleAsync(user, Roles.User.ToString());
+                    await _userManager.AddToRoleAsync(user, Input.Role);
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -154,6 +164,7 @@ namespace KinKanMaiUI.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            ViewData["Roles"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Customer", "Rider");
             return Page();
         }
 
