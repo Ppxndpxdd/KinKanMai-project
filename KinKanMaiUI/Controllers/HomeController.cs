@@ -35,19 +35,19 @@ namespace KinKanMaiUI.Controllers
             return View(menuModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Add(Menu obj)
-        {
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Add(Menu obj)
+        //{
 
-            if (ModelState.IsValid)
-            {
-                _db.Menus.Add(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        _db.Menus.Add(obj);
+        //        _db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(obj);
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
