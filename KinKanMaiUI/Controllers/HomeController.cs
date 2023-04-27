@@ -35,11 +35,6 @@ namespace KinKanMaiUI.Controllers
             return View(menuModel);
         }
 
-        public IActionResult Add()
-        {
-            return View();
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Add(Menu obj)

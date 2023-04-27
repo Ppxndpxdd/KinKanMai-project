@@ -15,6 +15,8 @@ namespace KinKanMaiUI.Models
 
         public bool IsDeleted { get; set; } = false;
 
+        public string ReceivedUserId { get; set; } = string.Empty;
+
         public OrderStatus OrderStatus { get; set; }
         public List<OrderDetail> OrderDetail { get; set; }
     }

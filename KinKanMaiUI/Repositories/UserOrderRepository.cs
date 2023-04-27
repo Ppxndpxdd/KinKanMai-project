@@ -9,7 +9,6 @@ namespace KinKanMaiUI.Repositories
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<IdentityUser> _userManager;
 
-
         public UserOrderRepository(ApplicationDbContext db,
             UserManager<IdentityUser> userManager,
              IHttpContextAccessor httpContextAccessor)

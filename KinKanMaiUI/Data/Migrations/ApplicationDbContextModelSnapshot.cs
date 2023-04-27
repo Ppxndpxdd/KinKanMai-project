@@ -97,6 +97,10 @@ namespace KinKanMaiUI.Data.Migrations
                     b.Property<int>("OrderStatusId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ReceivedUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -115,9 +119,6 @@ namespace KinKanMaiUI.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
 
                     b.Property<int>("MenuId")
                         .HasColumnType("int");
