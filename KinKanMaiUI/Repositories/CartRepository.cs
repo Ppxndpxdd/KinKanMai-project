@@ -114,21 +114,6 @@ namespace BookShoppingCartMvcUI.Repositories
             return cart;
         }
 
-        //public async Task<int> GetCartItemCount(string userId = "")
-        //{
-        //    if (string.IsNullOrEmpty(userId))
-        //    {
-        //        userId = GetUserId();
-        //    }
-        //    var data = await (from cart in _db.ShoppingCarts
-        //                      join cartDetail in _db.CartDetails
-        //                      on cart.Id equals cartDetail.ShoppingCartId
-        //                      where cart.UserId == userId
-        //                      select new { cartDetail.Id }
-        //                ).ToListAsync();
-        //    return data.Count;
-        //}
-
         public async Task<int> GetCartItemCount(string userId = "")
         {
             if (string.IsNullOrEmpty(userId))
@@ -143,7 +128,7 @@ namespace BookShoppingCartMvcUI.Repositories
         }
 
 
-        public async Task<bool> DoCheckout()
+        public async Task<bool> DoCheckout(string txt = "")
         {
             using var transaction = _db.Database.BeginTransaction();
             try
@@ -165,7 +150,8 @@ namespace BookShoppingCartMvcUI.Repositories
                     UserId = userId,
                     CreateDate = DateTime.UtcNow,
                     OrderStatusId = 1,//pending
-                    IsDeleted = false
+                    IsDeleted = false,
+                    Description = txt
                 };
 
                 _db.Orders.Add(order);

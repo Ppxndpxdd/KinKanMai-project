@@ -12,7 +12,7 @@
     @if (Model != null && Model.Count() > 0)
     {
         <div class="w-100 mt-4 d-flex flex-wrap gap-3 justify-content-start">
-            @foreach (var order in Model.Where(a => a.OrderStatusId == 1))
+            @foreach (var order in Model.OrderByDescending(x => x.CreateDate).Where(a => a.OrderStatusId == 1))
             {
                 var user = await UserManager.FindByIdAsync(order.UserId);
                 var Receiveduser = await UserManager.FindByIdAsync(order.ReceivedUserId);
@@ -33,6 +33,9 @@
                                 Quantity : @item.Quantity </p>
                             }
                         
+                        </p>
+                        <p>
+                            Description : @order.Description
                         </p>
                         @if (Receiveduser is not null)
                         {

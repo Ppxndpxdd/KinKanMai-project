@@ -16,6 +16,13 @@ namespace KinKanMaiUI.Data.Migrations
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Details",
+                table: "Order",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
@@ -25,7 +32,9 @@ namespace KinKanMaiUI.Data.Migrations
                 name: "ReceivedUserId",
                 table: "Order");
 
-            
+            migrationBuilder.DropColumn(
+                name: "Detail",
+                table: "Order");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace KinKanMaiUI.Controllers
 {
@@ -39,11 +40,12 @@ namespace KinKanMaiUI.Controllers
             return Ok(cartItem);
         }
 
-        public async Task<IActionResult> Checkout()
+        public async Task<IActionResult> Checkout(string txt = "")
         {
+            Console.WriteLine(txt);
             try
             {
-                bool isCheckedOut = await _cartRepo.DoCheckout();
+                bool isCheckedOut = await _cartRepo.DoCheckout(txt);
                 if (!isCheckedOut)
                     throw new Exception("Checkout failed");
 

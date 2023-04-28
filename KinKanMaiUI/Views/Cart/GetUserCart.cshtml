@@ -51,8 +51,12 @@
             @(Model.CartDetails.Select(item => item.Menu.Price * item.Quantity).Sum())
         </div>
 
+        <form method="post" action="/Cart/Checkout">
+            <input type="text" id="txt" name="txt">
+            <button type="submit" class="btn btn-primary">Checkout with details</button>
+        </form>
         <div class="my-2">
-            <a class="btn btn-primary" href="/Cart/Checkout">Checkout</a>
+            <a class="btn btn-primary" type="submit" href="/Cart/Checkout">Checkout</a>
         </div>
 
     }

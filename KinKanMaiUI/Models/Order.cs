@@ -17,6 +17,8 @@ namespace KinKanMaiUI.Models
 
         public string ReceivedUserId { get; set; } = string.Empty;
 
+        public string Description { get; set; } = string.Empty;
+
         public OrderStatus OrderStatus { get; set; }
         public List<OrderDetail> OrderDetail { get; set; }
     }

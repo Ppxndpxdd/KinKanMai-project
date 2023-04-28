@@ -14,7 +14,7 @@
                 <th>OrderDate</th>
                 <th>OrderStatus</th>
             </tr>
-            @foreach (var order in Model)
+            @foreach (var order in Model.OrderByDescending(x => x.CreateDate))
             {
                 <tr>
                     <td>@order.CreateDate.ToString("dd-MM-yyyy")</td>
@@ -64,6 +64,7 @@
                         </td>
                     </tr>
                 }
+                <td>Description : @order.Description</td>
             }
         </table>
 

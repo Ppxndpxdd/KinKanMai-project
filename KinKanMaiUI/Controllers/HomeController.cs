@@ -12,7 +12,6 @@ namespace KinKanMaiUI.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHomeRepository _homeRepository;
-
         private readonly ApplicationDbContext _db;
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext db, IHomeRepository homeRepository)

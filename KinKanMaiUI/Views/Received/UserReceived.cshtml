@@ -12,7 +12,7 @@
     @if (Model != null && Model.Count() > 0)
     {
         <div class="w-100 mt-4 d-flex flex-wrap gap-3 justify-content-start">
-            @foreach (var order in Model)
+            @foreach (var order in Model.OrderByDescending(x => x.CreateDate))
             {
                 var user = await UserManager.FindByIdAsync(order.UserId);
                 var Receiveduser = await UserManager.FindByIdAsync(order.ReceivedUserId);
@@ -36,17 +36,29 @@
                             }
 
                         </p>
+                        <p>
+                            Description : @order.Description
+                        </p>
                         @if (Receiveduser is not null)
                         {
                             <h7>Received by : @Receiveduser.UserName</h7>
                         }
                         @(order.OrderDetail.Select(item => item.Menu.Price * item.Quantity).Sum())
                         @*<a class="btn btn-info" href="/Cart/AddItem?menuId=@menu.Id&&redirect=1">+</a>*@
-                        <form method="post" action="/Received/UpdateReceivedOrder">
+                        @if (order.OrderStatusId == 2)
+                        {
+                            <form method="post" action="/Received/UpdateReceivedOrder">
                                 <input type="hidden" name="orderId" value="@order.Id" />
                                 <input type="hidden" name="newStatus" value="3" />
                                 <button type="submit" class="btn btn-primary">Complete</button>
-                        </form>
+                            </form>
+                        
+                            <form method="post" action="/Received/UpdateReceivedOrder">
+                                <input type="hidden" name="orderId" value="@order.Id" />
+                                <input type="hidden" name="newStatus" value="4" />
+                                <button type="submit" class="btn btn-primary">Cancelled</button>
+                            </form>
+                        }
                     </div>
                 </div>
             }
