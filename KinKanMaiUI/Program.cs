@@ -14,7 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services
-    .AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI()
     .AddDefaultTokenProviders();
@@ -29,6 +29,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Customer", policy => policy.RequireRole("Customer"));
     options.AddPolicy("Rider", policy => policy.RequireRole("Rider"));
 });
+
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
